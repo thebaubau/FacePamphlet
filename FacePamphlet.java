@@ -68,6 +68,11 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
 		add(friendTextField, WEST);
 		add(addFriend, WEST);
 
+		statusTextField.addActionListener(this);
+		pictureTextField.addActionListener(this);
+		friendTextField.addActionListener(this);
+		addActionListeners();
+
 //		FacePamphletCanvas profileCanvas = new FacePamphletCanvas();
 //		add(profileCanvas);
 	}
@@ -79,6 +84,7 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
      */
     public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
+
 		if (source == addProfile){
 			println("Add: " + nameTextField.getText());
 		}
@@ -94,11 +100,9 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
 		else if (source == changePicture) {
 			println("Change Picture: " + pictureTextField.getText());
 		}
-		else if (source == addFriend) {
-			println("Change Picture: " + friendTextField.getText());
+		else if (source == addFriend || source == friendTextField) {
+			println("Add Friend: " + friendTextField.getText());
 		}
 
 	}
-
-
 }
