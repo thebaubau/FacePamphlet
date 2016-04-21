@@ -12,20 +12,22 @@ import acm.graphics.*;
 import java.util.*;
 
 public class FacePamphletProfile implements FacePamphletConstants {
-	
+
+	private String profileName;
+	private GImage profileImage;
+
 	/** 
 	 * Constructor
 	 * This method takes care of any initialization needed for
 	 * the profile.
 	 */
 	public FacePamphletProfile(String name) {
-		// You fill this in
+		profileName = name;
 	}
 
 	/** This method returns the name associated with the profile. */ 
 	public String getName() {
-		// You fill this in.  Currently always returns the empty string.
-		return "";
+		return profileName;
 	}
 
 	/** 
@@ -33,8 +35,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * If there is no image associated with the profile, the method
 	 * returns null. */ 
 	public GImage getImage() {
-		// You fill this in.  Currently always returns null.
-		return null;
+		return profileImage;
 	}
 
 	/** This method sets the image associated with the profile. */ 
