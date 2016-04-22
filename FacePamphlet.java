@@ -28,6 +28,11 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
 	private JTextField friendTextField;
 	private JButton addFriend;
 
+	private FacePamphletDatabase database;
+	private FacePamphletProfile profileEntry;
+	private String currentProfile;
+
+
 	/**
 	 * This method has the responsibility for initializing the 
 	 * interactors in the application, and taking care of any other 
@@ -73,6 +78,8 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
 		friendTextField.addActionListener(this);
 		addActionListeners();
 
+		loadDatabase();
+
 //		FacePamphletCanvas profileCanvas = new FacePamphletCanvas();
 //		add(profileCanvas);
 	}
@@ -84,25 +91,82 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
      */
     public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
+		String text = nameTextField.getText();
+		if (text.isEmpty()) return;
 
 		if (source == addProfile){
-			println("Add: " + nameTextField.getText());
+			profileEntry = new FacePamphletProfile(text);
+			if (database.containsProfile(text)){
+				println("Add: profile for: " + profileEntry.toString() + " already exists");
+			} else {
+				database.addProfile(profileEntry);
+				currentProfile = text;
+				println("Add: new profile: " + profileEntry.toString());
+			}
 		}
+
 		else if (source == deleteProfile) {
-			println("Delete: " + nameTextField.getText());
+			if (database.containsProfile(text)){
+				println("Delete: profile of: " + profileEntry.getName() + " deleted");
+				database.deleteProfile(text);
+				currentProfile = null;
+			}
+			else {
+				println("Delete: profile with name: " + profileEntry.getName() + " does not exist");
+			}
 		}
+
 		else if (source == lookupProfile) {
-			println("Lookup: " + nameTextField.getText());
+			if (database.containsProfile(text)){
+				println("Lookup: " + database.getProfile(text));
+				currentProfile = text;
+			} else {
+				println("Lookup: profile with name: " + profileEntry.getName() + " does not exist");
+			}
 		}
+
 		else if (source == changeStatus) {
-			println("Change Status: " + statusTextField.getText());
+			if (currentProfile != null){
+				profileEntry = database.getProfile(currentProfile);
+				profileEntry.setStatus(statusTextField.getText());
+				println("Change Status: for profile: " + profileEntry.getName() + " to " + profileEntry.getStatus());
+			} else {
+				println("Lookup a profile to change the status");
+			}
 		}
+
 		else if (source == changePicture) {
-			println("Change Picture: " + pictureTextField.getText());
+			if (currentProfile != null){
+				GImage image = null;
+				try {
+					image = new GImage("MehranS.jpg");
+				} catch (ErrorException ex){
+					println("File not found");
+				}
+				profileEntry = database.getProfile(currentProfile);
+				profileEntry.setImage(image);
+				println("Image added");
+				println("Change Picture: " + pictureTextField.getText());
+			} else {
+				println("Lookup a profile to change the image");
+			}
 		}
+
 		else if (source == addFriend || source == friendTextField) {
+			if (currentProfile != null){
+				profileEntry = database.getProfile(currentProfile);
+				while (profileEntry.getFriends().hasNext()){
+
+				}
+				profileEntry.addFriend(friendTextField.getText());
+			}
+
 			println("Add Friend: " + friendTextField.getText());
 		}
 
+	}
+
+	private void loadDatabase(){
+		database = new FacePamphletDatabase();
 	}
 }

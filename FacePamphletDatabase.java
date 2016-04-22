@@ -10,15 +10,14 @@ import java.util.*;
 
 public class FacePamphletDatabase implements FacePamphletConstants {
 
+	private HashMap<String, FacePamphletProfile> profiles = new HashMap<>();
+
 	/** 
 	 * Constructor
 	 * This method takes care of any initialization needed for 
 	 * the database.
 	 */
-	public FacePamphletDatabase() {
-		// You fill this in
-	}
-	
+	public FacePamphletDatabase() {}
 	
 	/** 
 	 * This method adds the given profile to the database.  If the 
@@ -27,7 +26,13 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * the new profile passed in.
 	 */
 	public void addProfile(FacePamphletProfile profile) {
-		// You fill this in
+		String name = profile.getName();
+
+		if (profiles.containsKey(name)) {
+			profiles.replace(name, profile);
+		} else if (name != null) {
+			profiles.put(name, profile);
+		}
 	}
 
 	
@@ -37,11 +42,12 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * the given name, the method returns null.
 	 */
 	public FacePamphletProfile getProfile(String name) {
-		// You fill this in.  Currently always returns null.
+		if (profiles.containsKey(name)) {
+			return profiles.get(name);
+		}
 		return null;
 	}
-	
-	
+
 	/** 
 	 * This method removes the profile associated with the given name
 	 * from the database.  It also updates the list of friends of all
@@ -52,17 +58,18 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * the database is unchanged after calling this method.
 	 */
 	public void deleteProfile(String name) {
-		// You fill this in
+		if (profiles.containsKey(name)) {
+			profiles.get(name).getFriends();
+			profiles.remove(name);
+		}
 	}
 
-	
 	/** 
 	 * This method returns true if there is a profile in the database 
 	 * that has the given name.  It returns false otherwise.
 	 */
 	public boolean containsProfile(String name) {
-		// You fill this in.  Currently always returns false.
-		return false;
+		return profiles.containsKey(name);
 	}
 
 }
