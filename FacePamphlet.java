@@ -9,7 +9,9 @@ import acm.program.*;
 import acm.graphics.*;
 import acm.util.*;
 import java.awt.event.*;
+import java.util.Iterator;
 import javax.swing.*;
+import javax.swing.text.html.HTMLDocument;
 
 public class FacePamphlet extends ConsoleProgram implements FacePamphletConstants {
 
@@ -91,37 +93,37 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
      */
     public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		String text = nameTextField.getText();
-		if (text.isEmpty()) return;
+		String nameField = nameTextField.getText();
+		if (nameField.isEmpty()) return;
 
 		if (source == addProfile){
-			profileEntry = new FacePamphletProfile(text);
-			if (database.containsProfile(text)){
+			profileEntry = new FacePamphletProfile(nameField);
+			if (database.containsProfile(nameField)){
 				println("Add: profile for: " + profileEntry.toString() + " already exists");
 			} else {
 				database.addProfile(profileEntry);
-				currentProfile = text;
+				currentProfile = nameField;
 				println("Add: new profile: " + profileEntry.toString());
 			}
 		}
 
 		else if (source == deleteProfile) {
-			if (database.containsProfile(text)){
+			if (database.containsProfile(nameField)){
 				println("Delete: profile of: " + profileEntry.getName() + " deleted");
-				database.deleteProfile(text);
+				database.deleteProfile(nameField);
 				currentProfile = null;
 			}
 			else {
-				println("Delete: profile with name: " + profileEntry.getName() + " does not exist");
+				println("Delete: profile with name: " + nameField + " does not exist");
 			}
 		}
 
 		else if (source == lookupProfile) {
-			if (database.containsProfile(text)){
-				println("Lookup: " + database.getProfile(text));
-				currentProfile = text;
+			if (database.containsProfile(nameField)){
+				println("Lookup: " + database.getProfile(nameField));
+				currentProfile = nameField;
 			} else {
-				println("Lookup: profile with name: " + profileEntry.getName() + " does not exist");
+				println("Lookup: profile with name: " + nameField + " does not exist");
 			}
 		}
 
@@ -155,15 +157,38 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
 		else if (source == addFriend || source == friendTextField) {
 			if (currentProfile != null){
 				profileEntry = database.getProfile(currentProfile);
-				while (profileEntry.getFriends().hasNext()){
-
+				if (isFriendAlreadyInList(profileEntry)){
+					println("Friend already exists");
 				}
-				profileEntry.addFriend(friendTextField.getText());
+				else {
+					String friend = friendTextField.getText();
+					reciprocalFriend(friend);
+				}
+			} else {
+				println("Lookup a profile to change the image");
 			}
-
-			println("Add Friend: " + friendTextField.getText());
 		}
+	}
 
+	private boolean isFriendAlreadyInList(FacePamphletProfile profile){
+		Iterator<String> it = profile.getFriends();
+		if (it == null) return false;
+		while (it.hasNext()){
+			if (it.next().equals(friendTextField.getText())){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void reciprocalFriend(String friend){
+		if (database.getProfile(friend) == null){
+			println("No profile with that name exists!");
+		} else {
+			profileEntry.addFriend(friend);
+			database.getProfile(friend).addFriend(profileEntry.getName());
+			println("Added Friend: " + friendTextField.getText());
+		}
 	}
 
 	private void loadDatabase(){
