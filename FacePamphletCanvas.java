@@ -13,6 +13,8 @@ import java.util.*;
 
 public class FacePamphletCanvas extends GCanvas 
 					implements FacePamphletConstants {
+
+	private GLabel message;
 	
 	/** 
 	 * Constructor
@@ -20,7 +22,7 @@ public class FacePamphletCanvas extends GCanvas
 	 * the display
 	 */
 	public FacePamphletCanvas() {
-		// You fill this in
+
 	}
 
 	
@@ -31,7 +33,10 @@ public class FacePamphletCanvas extends GCanvas
 	 * passed in.
 	 */
 	public void showMessage(String msg) {
-		// You fill this in
+		message = new GLabel(msg);
+		message.setFont(MESSAGE_FONT);
+		add(message);
+
 	}
 	
 	
@@ -45,7 +50,7 @@ public class FacePamphletCanvas extends GCanvas
 	 * the user, and a list of the user's friends in the social network.
 	 */
 	public void displayProfile(FacePamphletProfile profile) {
-		// You fill this in
+
 	}
 
 	

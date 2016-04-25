@@ -13,7 +13,7 @@ import java.util.Iterator;
 import javax.swing.*;
 import javax.swing.text.html.HTMLDocument;
 
-public class FacePamphlet extends ConsoleProgram implements FacePamphletConstants {
+public class FacePamphlet extends Program implements FacePamphletConstants {
 
 	// North components
 	private JLabel nameLabel;
@@ -82,8 +82,8 @@ public class FacePamphlet extends ConsoleProgram implements FacePamphletConstant
 
 		loadDatabase();
 
-//		FacePamphletCanvas profileCanvas = new FacePamphletCanvas();
-//		add(profileCanvas);
+		FacePamphletCanvas profileCanvas = new FacePamphletCanvas();
+		add(profileCanvas);
 	}
 
     /**
