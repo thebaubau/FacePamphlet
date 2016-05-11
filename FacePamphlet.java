@@ -109,12 +109,12 @@ public class FacePamphlet extends Program implements FacePamphletConstants {
 
 		else if (source == deleteProfile) {
 			if (database.containsProfile(nameField)){
-				profileCanvas.showMessage("Deleted profile: " + profileEntry.getName());
+				profileCanvas.showMessage("Profile of " + profileEntry.getName() + " deleted");
 				database.deleteProfile(nameField);
 				currentProfile = null;
 			}
 			else {
-				profileCanvas.showMessage("Profile with name: " + nameField + " does not exist");
+				profileCanvas.showMessage("A profile with the name " + nameField + " does not exist");
 			}
 		}
 
@@ -134,7 +134,7 @@ public class FacePamphlet extends Program implements FacePamphletConstants {
 			if (currentProfile != null){
 				profileEntry = database.getProfile(currentProfile);
 				profileEntry.setStatus(statusTextField.getText());
-				profileCanvas.showMessage("Changed status for profile: " + profileEntry.getName() + " to: " + profileEntry.getStatus());
+				profileCanvas.showMessage("Status updated to: " + profileEntry.getStatus());
 			} else {
 				profileCanvas.showMessage("Lookup a profile to change the status.");
 			}
@@ -144,14 +144,13 @@ public class FacePamphlet extends Program implements FacePamphletConstants {
 			if (currentProfile != null){
 				GImage image = null;
 				try {
-					image = new GImage("C:\\Dani\\FacePamphlet\\images\\MehranS.jpg");
+					image = new GImage("F:\\Projects\\Java\\FacePamphlet\\images\\JulieZ.jpg");
 				} catch (ErrorException ex){
-					println("File not found");
+					profileCanvas.showMessage("File not found");
 				}
 				profileEntry = database.getProfile(currentProfile);
 				profileEntry.setImage(image);
-				profileCanvas.showMessage("Image added");
-				println("Change Picture: " + pictureTextField.getText());
+				profileCanvas.showMessage("Picture updated");
 			} else {
 				profileCanvas.showMessage("Lookup a profile to change the image.");
 			}
@@ -161,14 +160,15 @@ public class FacePamphlet extends Program implements FacePamphletConstants {
 			if (currentProfile != null){
 				profileEntry = database.getProfile(currentProfile);
 				if (isFriendAlreadyInList(profileEntry)){
-					profileCanvas.showMessage("Friend already exists");
+					profileCanvas.showMessage(profileEntry.getName() + " already has " + friendTextField.getText() +
+							"added as a friend");
 				}
 				else {
 					String friend = friendTextField.getText();
 					reciprocalFriend(friend);
 				}
 			} else {
-				profileCanvas.showMessage("Lookup a profile to change the image.");
+				profileCanvas.showMessage("Lookup a profile to add friends.");
 			}
 		}
 	}
@@ -190,7 +190,7 @@ public class FacePamphlet extends Program implements FacePamphletConstants {
 		} else {
 			profileEntry.addFriend(friend);
 			database.getProfile(friend).addFriend(profileEntry.getName());
-			profileCanvas.showMessage("Added Friend: " + friendTextField.getText());
+			profileCanvas.showMessage(friendTextField.getText() + " added as a friend");
 		}
 	}
 
