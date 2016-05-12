@@ -16,6 +16,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	private String profileName;
 	private String profileStatus = "";
 	private GImage profileImage;
+	private String profileImageName;
 	private ArrayList<String> profileFriends = new ArrayList<>();
 
 	/**
@@ -42,9 +43,17 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		return null;
 	}
 
+	public String getImageName() {
+		return profileImageName;
+	}
+
 	/** This method sets the image associated with the profile. */
 	public void setImage(GImage image) {
 		profileImage = image;
+	}
+
+	public void setImageName(String fileName) {
+		profileImageName = fileName;
 	}
 
 	/**
@@ -106,9 +115,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public Iterator<String> getFriends() {
 		if (profileFriends.size() > 0) {
 			return profileFriends.iterator();
-
-//       Iterator<String> iterator = profileFriends.iterator();
-//       return iterator;
 		}
 		return null;
 	}
@@ -126,7 +132,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 */
 	public String toString() {
 		if (profileName != null){
-			return profileName + " (" + profileStatus + ") " + profileFriends.toString();
+			return profileName;
 		}
 		return "";
 	}

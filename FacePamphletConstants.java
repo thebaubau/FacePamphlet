@@ -15,7 +15,7 @@ public interface FacePamphletConstants {
 	public static final int APPLICATION_HEIGHT = 500;
 
 	/** Number of characters for each of the text input fields */
-	public static final int TEXT_FIELD_SIZE = 15;
+	public static final int TEXT_FIELD_SIZE = 10;
 
 	/** Text to be used to create an "empty" label to put space
 	 *  between interactors on EAST border of application.  Note this

@@ -6,6 +6,10 @@
  * sensitive, so that "ALICE" and "alice" are NOT the same name.
  */
 
+import acm.graphics.GImage;
+import acm.util.ErrorException;
+
+import java.io.*;
 import java.util.*;
 
 public class FacePamphletDatabase implements FacePamphletConstants {
@@ -60,11 +64,13 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	public void deleteProfile(String name) {
 		if (profiles.containsKey(name)) {
 			FacePamphletProfile profileToRemove = profiles.get(name);
-			Iterator<String>iterator = profileToRemove.getFriends();
-			while(iterator.hasNext()) {
-				String friendName = iterator.next();
-				FacePamphletProfile friendsProfile = profiles.get(friendName);
-				friendsProfile.removeFriend(name);
+			Iterator<String> iterator = profileToRemove.getFriends();
+			if (iterator != null) {
+				while(iterator.hasNext()) {
+					String friendName = iterator.next();
+					FacePamphletProfile friendsProfile = profiles.get(friendName);
+					friendsProfile.removeFriend(name);
+				}
 			}
 			profiles.remove(name);
 		}
@@ -78,4 +84,41 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 		return profiles.containsKey(name);
 	}
 
+	public void loadFile(String file) {
+		BufferedReader rd;
+		try {
+			rd = new BufferedReader(new FileReader(file));
+			int nProfile = Integer.parseInt(rd.readLine());
+
+			for (int i = 0; i < nProfile; i++) {
+				// Create new profile;
+				String name = rd.readLine();
+				FacePamphletProfile profile = new FacePamphletProfile(name);
+
+				// Set image for profile if it exists
+				String image = rd.readLine();
+				profile.setImageName(image);
+				if (image.length() != 0) {
+					profile.setImage(new GImage(image));
+				}
+
+				// Set status for profile
+				String status = rd.readLine();
+				profile.setStatus(status);
+
+				// Add friends for this profile
+				while (true) {
+					String friend = rd.readLine();
+					if (friend.length() == 0) break;
+					profile.addFriend(friend);
+				}
+
+				// Adding the profile
+				profiles.put(name, profile);
+			}
+			rd.close();
+		} catch (IOException ex) {
+			throw new ErrorException(ex);
+		}
+	}
 }
