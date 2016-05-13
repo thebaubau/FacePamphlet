@@ -147,8 +147,8 @@ public class FacePamphlet extends Program implements FacePamphletConstants {
 			if (currentProfile != null){
 				profileEntry = database.getProfile(currentProfile);
 				profileEntry.setStatus(statusTextField.getText());
-				profileCanvas.showMessage("Status updated to: " + profileEntry.getStatus());
 				lookupProfile(currentProfile);
+				profileCanvas.showMessage("Status updated to: " + profileEntry.getStatus());
 			} else {
 				profileCanvas.showMessage("Lookup a profile to change the status.");
 			}
@@ -181,7 +181,7 @@ public class FacePamphlet extends Program implements FacePamphletConstants {
 				else {
 					String friend = friendTextField.getText();
 					reciprocalFriend(friend);
-//					lookupProfile(currentProfile);
+					lookupProfile(currentProfile);
 				}
 			} else {
 				profileCanvas.showMessage("Lookup a profile to add friends.");
